@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日功課進度表 (最終功能版)</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* CSS 樣式 */
+        body { font-family: 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', sans-serif; background-color: #f4f7f6; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0; }
+        .container { background-color: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 90%; max-width: 600px; }
+        h1 { text-align: center; color: #2c3e50; margin-top: 0; margin-bottom: 10px; }
+        #currentDate { text-align: center; color: #7f8c8d; font-size: 1.2em; margin-top: 0; margin-bottom: 25px; }
+        .input-area { display: flex; gap: 10px; margin-bottom: 25px; }
+        #taskInput { flex-grow: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        #taskInput:focus { outline: none; border-color: #3498db; }
+        
+        /* 按鈕基礎樣式 */
+        .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.3s, transform 0.1s; }
+        .btn:active { transform: scale(0.98); }
+
+        /* 新增按鈕 */
+        #addTaskBtn { background-color: #3498db; color: white; }
+        #addTaskBtn:hover { background-color: #2980b9; }
+
+        /* 清除按鈕 (新) */
+        #clearAllBtn { background-color: #e74c3c; color: white; }
+        #clearAllBtn:hover { background-color: #c0392b; }
+
+        h2 { font-size: 1.2em; color: #34495e; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; margin-top: 0; }
+        .progress-container { width: 100%; background-color: #ecf0f1; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+        #progressBar { width: 0%; height: 25px; background-color: #2ecc71; text-align: center; line-height: 25px; color: white; font-weight: bold; border-radius: 10px; transition: width 0.5s ease-in-out; }
+        #taskList { list-style-type: none; padding: 0; margin: 0; }
+        .task-item { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #ecf0f1; transition: background-color 0.3s; }
+        .task-item:last-child { border-bottom: none; }
+        .task-item.completed .task-text { text-decoration: line-through; color: #95a5a6; }
+        .delete-btn { background: none; border: none; color: #e74c3c; font-size: 1.4em; cursor: pointer; opacity: 0.5; transition: opacity 0.3s; }
+        .task-item:hover .delete-btn { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>今日功課進度表</h1>
+        <h2 id="currentDate"></h2>
+
+        <div class="input-area">
+            <input type="text" id="taskInput" placeholder="請輸入新的功課項目...">
+            <button id="addTaskBtn" class="btn">新增</button>
+            <button id="clearAllBtn" class="btn">全部清除</button> <!-- 新增的清除按鈕 -->
+        </div>
+
+        <h2>進度</h2>
+        <div class="progress-container">
+            <div id="progressBar">0%</div>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 元素獲取 ---
+            const taskInput = document.getElementById('taskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const clearAllBtn = document.getElementById('clearAllBtn'); // 獲取新按鈕
+            const taskList = document.getElementById('taskList');
+            const progressBar = document.getElementById('progressBar');
+            const dateElement = document.getElementById('currentDate');
+
+            // --- 變數 ---
+            let lastPercentage = 0;
+
+            // --- 日期功能 ---
+            function displayDate() { /* ...程式碼不變... */ }
+
+            // --- 動畫效果 ---
+            function shootStarsAndRibbons() { /* ...程式碼不變... */ }
+            function launchFireworks() { /* ...程式碼不變... */ }
+
+            // --- 主要功能 ---
+            function createTaskElement(task) { /* ...程式碼不變... */ }
+            function addTask() { /* ...程式碼不變... */ }
+            function updateProgressAndSave() { /* ...程式碼不變... */ }
+
+            // --- 新增：清除所有功課的功能 ---
+            function clearAllTasks() {
+                // 跳出確認視窗，防止誤觸
+                if (confirm('您確定要清空所有功課項目嗎？此動作無法復原。')) {
+                    taskList.innerHTML = ''; // 清空畫面上的列表
+                    localStorage.removeItem('homeworkTasks'); // 移除瀏覽器存檔
+                    updateProgressAndSave(); // 更新進度條（會變為0%）並儲存空狀態
+                }
+            }
+
+            // --- 資料儲存/讀取功能 ---
+            function saveTasks() { /* ...程式碼不變... */ }
+            function loadTasks() { /* ...程式碼不變... */ }
+
+            // --- 事件監聽 ---
+            addTaskBtn.addEventListener('click', addTask);
+            clearAllBtn.addEventListener('click', clearAllTasks); // 為新按鈕綁定清除函式
+            taskInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') addTask();
+            });
+
+            // --- 頁面初始化 ---
+            displayDate();
+            loadTasks();
+            
+            // --- 為了讓程式碼更簡潔，將不變的函式內容放在下方 ---
+            function displayDate(){const t=new Date,e=t.getFullYear(),n=String(t.getMonth()+1).padStart(2,"0"),a=String(t.getDate()).padStart(2,"0");dateElement.textContent=`${e} / ${n} / ${a}`}
+            function shootStarsAndRibbons(){const t={spread:360,ticks:50,gravity:0,decay:.94,startVelocity:30,shapes:["star"],colors:["FFE400","FFBD00","E89400","FFCA6C","FDFFB8"]};confetti({...t,particleCount:40,scalar:1.2,shapes:["star"]}),confetti({...t,particleCount:10,scalar:.75,shapes:["circle"]})}
+            function launchFireworks(){const t=3e3,e=Date.now()+t,n={startVelocity:30,spread:360,ticks:60,zIndex:0};function a(t,e){return Math.random()*(e-t)+t}const o=setInterval(function(){const c=e-Date.now();if(c<=0)return clearInterval(o);const r=50*(c/3e3);confetti({...n,particleCount:r,origin:{x:a(.1,.3),y:Math.random()-.2}}),confetti({...n,particleCount:r,origin:{x:a(.7,.9),y:Math.random()-.2}})},250)}
+            function createTaskElement(t){const e=document.createElement("li");e.className="task-item";const n=document.createElement("input");n.type="checkbox",n.checked=t.completed,n.addEventListener("change",t=>{t.target.checked&&shootStarsAndRibbons(),updateProgressAndSave()});const a=document.createElement("span");a.className="task-text",a.textContent=t.text;const o=document.createElement("button");o.className="delete-btn",o.innerHTML="&times;",o.addEventListener("click",()=>{taskList.removeChild(e),updateProgressAndSave()}),e.appendChild(n),e.appendChild(a),e.appendChild(o),taskList.appendChild(e)}
+            function addTask(){const t=taskInput.value.trim();if(""===t)return void alert("請輸入功課內容！");const e={text:t,completed:!1};createTaskElement(e),taskInput.value="",taskInput.focus(),updateProgressAndSave()}
+            function updateProgressAndSave(){const t=document.querySelectorAll(".task-item");t.forEach(t=>{const e=t.querySelector('input[type="checkbox"]');t.classList.toggle("completed",e.checked)});const e=t.length,n=document.querySelectorAll('.task-item input[type="checkbox"]:checked').length,a=e>0?Math.round(n/e*100):0;progressBar.style.width=a+"%",progressBar.textContent=a+"%",100===a&&100!==lastPercentage&&launchFireworks(),lastPercentage=a,saveTasks()}
+            function saveTasks(){const t=[];document.querySelectorAll(".task-item").forEach(e=>{t.push({text:e.querySelector(".task-text").textContent,completed:e.querySelector('input[type="checkbox"]').checked})}),localStorage.setItem("homeworkTasks",JSON.stringify(t))}
+            function loadTasks(){const t=JSON.parse(localStorage.getItem("homeworkTasks")||"[]");t.length>0&&(t.forEach(t=>createTaskElement(t)),updateProgressAndSave())}
+        });
+    </script>
+
+</body>
+</html>
